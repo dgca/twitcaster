@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "strict": true,
+    "paths": {
+      "@twitcaster/db": ["libs/db/src/index.ts"],
+      "@twitcaster/farcaster-provider": [
+        "libs/farcaster-provider/src/index.ts"
+      ],
+      "@twitcaster/twitter-provider": ["libs/twitter-provider/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
