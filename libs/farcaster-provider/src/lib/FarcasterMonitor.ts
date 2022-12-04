@@ -113,10 +113,9 @@ export class FarcasterMonitor {
 
     const latestCast = filteredCasts[0];
 
-    // If user has not casted to Twitter, we only tweet the latest cast
-    if (userListener.lastCastTimestamp === null) {
-      await this.tweetCasts(user, [latestCast]);
-    } else {
+    // If `userListener.lastCastTimestamp` is null, the user just signed up
+    // so we'll skip tweeting and just set the latest timestamp and hash below
+    if (userListener.lastCastTimestamp !== null) {
       const storedTimestamp = userListener.lastCastTimestamp;
       const newCasts = filteredCasts.filter((cast) => {
         return cast.publishedAt > storedTimestamp;

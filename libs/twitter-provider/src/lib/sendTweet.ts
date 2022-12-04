@@ -9,11 +9,8 @@ export async function sendTweet({
   tweet: string;
 }) {
   const twitterClient = await getUserTwitterClient({ userId });
-  console.log(`
-MOCK TWEET: ${userId}
-${tweet}
-`);
-  // return twitterClient.v2.tweet(tweet);
+
+  return twitterClient.v2.tweet(tweet);
 }
 
 async function handleRefreshToken({ userId }: { userId: string }) {
