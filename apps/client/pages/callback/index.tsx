@@ -6,13 +6,13 @@ import { Primary } from '../../layouts/primary/primary';
 import { useLocalStorage } from 'usehooks-ts';
 
 async function handleCallback({
-  oauthToken,
-  oauthVerifier,
+  twitterState,
+  twitterCode,
   onSuccess,
   onError,
 }: {
-  oauthToken?: string;
-  oauthVerifier?: string;
+  twitterState?: string;
+  twitterCode?: string;
   onSuccess: ({
     screenName,
     userId,
@@ -31,8 +31,8 @@ async function handleCallback({
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        oauthToken,
-        oauthVerifier,
+        state: twitterState,
+        code: twitterCode,
       }),
     });
 
@@ -54,11 +54,11 @@ async function handleCallback({
 }
 
 export default function Callback({
-  oauthToken,
-  oauthVerifier,
+  twitterState,
+  twitterCode,
 }: {
-  oauthToken?: string;
-  oauthVerifier?: string;
+  twitterState?: string;
+  twitterCode?: string;
 }) {
   const router = useRouter();
 
@@ -74,13 +74,12 @@ export default function Callback({
     hasFetched.current = true;
 
     handleCallback({
-      oauthToken,
-      oauthVerifier,
+      twitterState,
+      twitterCode,
       onSuccess: ({ screenName, userId, accessToken }) => {
         setUserId(userId);
         setScreenName(screenName);
         setAccessToken(accessToken);
-
         router.replace('/settings');
       },
       onError: (error) => {
@@ -88,8 +87,8 @@ export default function Callback({
       },
     });
   }, [
-    oauthToken,
-    oauthVerifier,
+    twitterState,
+    twitterCode,
     router,
     setScreenName,
     setUserId,
@@ -107,8 +106,8 @@ export default function Callback({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
-      oauthToken: context.query.oauth_token,
-      oauthVerifier: context.query.oauth_verifier,
+      twitterState: context.query.state,
+      twitterCode: context.query.code,
     },
   };
 };

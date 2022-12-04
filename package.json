@@ -24,6 +24,7 @@
     "fake-tweet": "^1.0.2",
     "framer-motion": "^7.6.17",
     "http-proxy": "^1.18.1",
+    "lodash": "^4.17.21",
     "mongodb": "^4.12.1",
     "next": "13.0.0",
     "react": "18.2.0",

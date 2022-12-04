@@ -4,17 +4,18 @@ import {
   handleTwitterCallback,
 } from '@twitcaster/twitter-provider';
 import * as express from 'express';
-import { fetchFarcaster } from '@twitcaster/farcaster-provider';
+import {
+  FarcasterMonitor,
+  fetchFarcaster,
+} from '@twitcaster/farcaster-provider';
 
 const app = express();
 app.use(express.json());
 
-app.get('/api/request-token', async function (req, res) {
-  if (!process.env.NEXT_ORIGIN) {
-    throw new Error('NEXT_ORIGIN not found');
-  }
+const farcasterMonitor = new FarcasterMonitor();
 
-  const response = await getRequestToken(process.env.NEXT_ORIGIN);
+app.get('/api/request-token', async function (req, res) {
+  const response = await getRequestToken();
 
   res.send({ url: response.url });
 });
@@ -64,23 +65,24 @@ app.get('/api/farcaster-user', async function (req, res) {
 });
 
 app.post('/api/handle-callback', async function (req, res) {
-  const { oauthToken, oauthVerifier } = req.body;
-
-  console.log(oauthToken, oauthVerifier, req.body);
+  const { state, code } = req.body;
 
   if (
-    !oauthToken ||
-    !oauthVerifier ||
-    typeof oauthToken !== 'string' ||
-    typeof oauthVerifier !== 'string'
+    !state ||
+    !code ||
+    typeof state !== 'string' ||
+    typeof code !== 'string'
   ) {
     res.status(400).send({
-      error: 'Ivalid oauthToken or oauthVerifier',
+      error: 'Ivalid twitter state or code',
     });
     return;
   }
 
-  const userDetails = await handleTwitterCallback(oauthToken, oauthVerifier);
+  const userDetails = await handleTwitterCallback({
+    state,
+    code,
+  });
 
   if (!userDetails) {
     return res.status(500).send({
@@ -96,14 +98,13 @@ app.post('/api/handle-callback', async function (req, res) {
 });
 
 app.post('/api/save-settings', async function (req, res) {
-  const { userId, fname, withFcastMeLink, withFarcasterHandle } = req.body;
+  const { userId, fname, withFcastMeLink } = req.body;
   const accessToken = req.headers.authorization;
 
   if (
     typeof userId !== 'string' ||
     typeof fname !== 'string' ||
     typeof withFcastMeLink !== 'boolean' ||
-    typeof withFarcasterHandle !== 'boolean' ||
     typeof accessToken !== 'string'
   ) {
     return res.status(400).send({
@@ -129,7 +130,6 @@ app.post('/api/save-settings', async function (req, res) {
     fid,
     fname,
     withFcastMeLink,
-    withFarcasterHandle,
   });
 
   if (!result.ok || !result.value) {
