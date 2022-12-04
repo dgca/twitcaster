@@ -12,7 +12,6 @@ export function useSaveSettings() {
       userId,
       fname,
       withFcastMeLink,
-      withFarcasterHandle,
       onSuccess,
       onError,
     }: FormValues & {
@@ -33,14 +32,15 @@ export function useSaveSettings() {
             userId,
             fname,
             withFcastMeLink,
-            withFarcasterHandle,
           }),
         });
 
-        await response.json();
+        const data = await response.json();
 
         if (/^4|5/.test(response.status.toString())) {
-          throw new Error('Something went wrong, please try again.');
+          throw new Error(
+            data.error ?? 'Something went wrong, please try again.'
+          );
         }
 
         onSuccess();

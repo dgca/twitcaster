@@ -1,13 +1,6 @@
-import { getDbClient } from '@twitcaster/db-provider';
+import { type UserDetails, upsertUser } from '@twitcaster/db-provider';
 import TwitterApi from 'twitter-api-v2';
 import { tokenStore } from '../utils/tokenStore';
-
-type UserDetails = {
-  accessToken: string;
-  accessSecret: string;
-  screenName: string;
-  userId: string;
-};
 
 async function getTwitterUserDetails(
   oauthToken: string,
@@ -44,53 +37,6 @@ async function getTwitterUserDetails(
     return { accessToken, accessSecret, screenName, userId };
   } catch (error) {
     console.error('Error creating Twitter client for user', error);
-    return null;
-  }
-}
-
-async function upsertUser({
-  accessToken,
-  accessSecret,
-  screenName,
-  userId,
-}: UserDetails) {
-  try {
-    const client = await getDbClient();
-    const db = client.db('db');
-    const users = db.collection('users');
-    const user = await users.findOne({ userId });
-
-    let result = null;
-
-    if (user) {
-      result = await users.updateOne(
-        {
-          userId,
-        },
-        {
-          $set: {
-            screenName,
-            accessToken,
-            accessSecret,
-          },
-        }
-      );
-    } else {
-      result = await users.insertOne({
-        userId,
-        screenName,
-        accessToken,
-        accessSecret,
-        fid: null,
-        fname: '',
-        withFcastMeLink: true,
-        withFarcasterHandle: true,
-      });
-    }
-
-    return result;
-  } catch (err) {
-    console.error(err);
     return null;
   }
 }
