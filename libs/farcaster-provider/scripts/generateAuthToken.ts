@@ -30,7 +30,7 @@ async function getAuthToken() {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${await generateBearerToken(timestamp)}`,
-      'Content-Type': 'application/json',
+      'content-type': 'application/json',
     },
     body: JSON.stringify({
       method: 'generateToken',

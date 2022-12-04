@@ -1,1 +1,1 @@
-export * from './lib/getUserCasts';
+export * from './lib/fetchFarcaster';

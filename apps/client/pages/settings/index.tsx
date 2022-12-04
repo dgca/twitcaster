@@ -1,28 +1,78 @@
-import { SettingsForm } from '../../components/SettingsForm/SettingsForm';
+import {
+  SettingsForm,
+  FormValues,
+} from '../../components/SettingsForm/SettingsForm';
 import { Primary } from '../../layouts/primary/primary';
-import { useUserStore } from '../../stores/userStore';
 import { format } from 'date-fns';
-import { Card } from '@chakra-ui/react';
+import { Button, Card, Stack, useToast } from '@chakra-ui/react';
 
 import FakeTweet from '../../vendor/fake-tweet';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-export default function Settings() {
-  const userStore = useUserStore();
-  const router = useRouter();
+import { useForm, FormProvider } from 'react-hook-form';
+import { useReadLocalStorage } from 'usehooks-ts';
+import { useSaveSettings } from './hooks/useSaveSettings';
+import { useGet } from '../../hooks/useGet';
+import { LoadingOverlay } from '../../components/LoadingOverlay/LoadingOverlay';
 
-  useEffect(() => {
-    if (!userStore.screenName) {
-      router.replace('/');
-    }
-  }, [router, userStore.screenName]);
+type User = {
+  accessToken: string;
+  fname: string;
+  screenName: string;
+  userId: string;
+  withFarcasterHandle: boolean;
+  withFcastMeLink: boolean;
+};
+
+function BootstrappedSettingsForm({ user }: { user: User }) {
+  const toast = useToast();
+  const userId = useReadLocalStorage<string>('userId') ?? '';
+  const formMethods = useForm<FormValues>({
+    defaultValues: {
+      fname: user.fname,
+      withFcastMeLink: user.withFcastMeLink,
+      withFarcasterHandle: user.withFarcasterHandle,
+    },
+  });
+
+  const { handleSubmit, watch } = formMethods;
+  const [withFcastMeLink, withFarcasterHandle] = watch([
+    'withFcastMeLink',
+    'withFarcasterHandle',
+  ]);
+
+  const { isSubmitting, submit } = useSaveSettings();
+
+  const onSubmit = (data: FormValues) => {
+    submit({
+      userId,
+      onSuccess: () => {
+        console.log('success');
+        toast({
+          title: 'Success',
+          description: 'Your settings are saved!',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      },
+      onError: ({ message }) => {
+        console.log('error');
+        toast({
+          title: 'Error',
+          description: message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      },
+      ...data,
+    });
+  };
 
   return (
-    <Primary
-      title="Settings"
-      description={`Welcome, @${userStore.screenName}!`}
-    >
+    <>
       <Card
         className="tweet-wrapper"
         borderRadius="8"
@@ -41,7 +91,9 @@ export default function Settings() {
             },
             display: 'default',
             text: `Fool me once, shame on yee. Fool me twice...
-            https://fcast.me/typeof @farcaster_xyz`,
+            ${withFcastMeLink ? 'https://fcast.me/typeof' : ''} ${
+              withFarcasterHandle ? '@farcaster_xyz' : ''
+            }\xa0`,
             image: '',
             date: format(new Date(), 'h:mm a • MMM d, yyyy'),
             app: 'Twitcaster',
@@ -51,7 +103,11 @@ export default function Settings() {
           }}
         />
       </Card>
-      <SettingsForm />
+      <FormProvider {...formMethods}>
+        <Stack width="100%" as="form" onSubmit={handleSubmit(onSubmit)}>
+          <SettingsForm loading={isSubmitting} />
+        </Stack>
+      </FormProvider>
       <style jsx global>{`
         .tweet-wrapper .tweet {
           max-width: 100%;
@@ -66,6 +122,47 @@ export default function Settings() {
           white-space: pre-line;
         }
       `}</style>
+    </>
+  );
+}
+
+export default function Settings() {
+  const router = useRouter();
+  const userId = useReadLocalStorage<string>('userId') ?? '';
+  const screenName = useReadLocalStorage<string>('screenName') ?? '';
+  const accessToken = useReadLocalStorage<string>('accessToken') ?? '';
+
+  const { data, status } = useGet<{ user: User | null }>(
+    `/api/user?userId=${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (!userId || (status === 'READY' && !data?.user)) {
+      router.replace('/');
+    }
+  }, [data?.user, router, status, userId]);
+
+  return (
+    <Primary
+      title="Settings"
+      description={`Welcome, @${screenName}! Set up your automation below.`}
+    >
+      <LoadingOverlay loading={status === 'LOADING'} />
+      {status === 'READY' && data?.user && (
+        <BootstrappedSettingsForm user={data.user} />
+      )}
+      <Button
+        onClick={() => {
+          fetch('/api/farcaster-user?fname=typeof');
+        }}
+      >
+        Click me
+      </Button>
     </Primary>
   );
 }
