@@ -138,6 +138,8 @@ app.post('/api/save-settings', async function (req, res) {
     });
   }
 
+  farcasterMonitor.addListener(userId);
+
   res.status(200).send({
     user: result.value,
   });

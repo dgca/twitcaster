@@ -1,51 +1,70 @@
 import { type UserDetails, upsertUser } from '@twitcaster/db-provider';
 import TwitterApi from 'twitter-api-v2';
-import { tokenStore } from '../utils/tokenStore';
+import { tokenStore } from '../utils/tokenStoreV2';
 
-async function getTwitterUserDetails(
-  oauthToken: string,
-  oauthVerifier: string
-): Promise<UserDetails | null> {
+type HandleCallbackArgs = {
+  state: string;
+  code: string;
+};
+
+async function getTwitterUserDetails({
+  state,
+  code,
+}: HandleCallbackArgs): Promise<UserDetails | null> {
   try {
-    const oauthSecret = tokenStore.getSecret(oauthToken);
+    const codeVerifier = tokenStore.getVerifier(state);
 
     if (
-      typeof process.env.TWITTER_API_KEY !== 'string' ||
-      typeof process.env.TWITTER_API_KEY_SECRET !== 'string'
+      typeof process.env.TWITTER_CLIENT_ID !== 'string' ||
+      typeof process.env.TWITTER_CLIENT_SECRET !== 'string' ||
+      typeof process.env.NEXT_ORIGIN !== 'string'
     ) {
       throw new Error('Twitter environment variables not found');
     }
 
-    if (!oauthSecret) {
-      throw new Error(`Could not find OAuth secret for token: ${oauthToken}`);
+    if (!code) {
+      throw new Error(`Could not find code`);
     }
 
-    if (!oauthVerifier) {
-      throw new Error(`Could not find OAuth verifier for token: ${oauthToken}`);
+    if (!codeVerifier) {
+      throw new Error(`Could not find verifier`);
     }
 
     const tempClient = new TwitterApi({
-      appKey: process.env.TWITTER_API_KEY,
-      appSecret: process.env.TWITTER_API_KEY_SECRET,
-      accessToken: oauthToken,
-      accessSecret: oauthSecret,
+      clientId: process.env.TWITTER_CLIENT_ID,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET,
     });
 
-    const { accessToken, accessSecret, screenName, userId } =
-      await tempClient.login(oauthVerifier);
+    const { client, accessToken, refreshToken, expiresIn } =
+      await tempClient.loginWithOAuth2({
+        code,
+        codeVerifier,
+        redirectUri: `${process.env.NEXT_ORIGIN}/callback`,
+      });
 
-    return { accessToken, accessSecret, screenName, userId };
+    if (!refreshToken) {
+      throw new Error('Did not receive refresh token');
+    }
+
+    const user = await client.currentUserV2();
+    const userId = user.data.id;
+    const screenName = user.data.username;
+    // We'll set the expiration date of the token as five minutes
+    // before it actually expires just to be safe
+    const expiresAt = new Date().valueOf() + expiresIn * 1000 - 1000 * 60 * 5;
+
+    return { accessToken, refreshToken, expiresAt, userId, screenName };
   } catch (error) {
     console.error('Error creating Twitter client for user', error);
     return null;
   }
 }
 
-export async function handleTwitterCallback(
-  oauthToken: string,
-  oauthVerifier: string
-) {
-  const userDetails = await getTwitterUserDetails(oauthToken, oauthVerifier);
+export async function handleTwitterCallback({
+  state,
+  code,
+}: HandleCallbackArgs) {
+  const userDetails = await getTwitterUserDetails({ state, code });
 
   if (!userDetails) {
     return null;

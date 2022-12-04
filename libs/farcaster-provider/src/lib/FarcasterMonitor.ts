@@ -14,7 +14,6 @@ type Listener = {
 
 // Check for new tweets every five minutes
 const POLLING_INTERVAL = 1000 * 60 * 5;
-const NEXT_TWEET_DELAY = 1000 * 5;
 const TWEET_MAX_LENGTH = 280;
 
 export class FarcasterMonitor {
@@ -47,7 +46,7 @@ export class FarcasterMonitor {
 
   addListener = (userId: string) => {
     if (this.listeners.has(userId)) {
-      this.removeListener(userId);
+      return;
     }
 
     this.listeners.set(userId, {
@@ -143,17 +142,12 @@ export class FarcasterMonitor {
 
       try {
         await sendTweet({
+          userId: user.userId,
           tweet: tweetBody,
-          accessToken: user.accessToken,
-          accessSecret: user.accessSecret,
         });
       } catch (error) {
         console.log(error);
       }
-
-      await new Promise((res) => {
-        setTimeout(res, NEXT_TWEET_DELAY);
-      });
     }
   };
 }
@@ -175,7 +169,7 @@ function isValidEntity<T extends Record<string, unknown>>(
 type User = {
   userId: string;
   accessToken: string;
-  accessSecret: string;
+  refreshToken: string;
   fid: number;
   fname: string;
   withFcastMeLink: boolean;
@@ -187,7 +181,7 @@ function isValidUser(
   return isValidEntity<User>(maybeUser, {
     userId: '',
     accessToken: '',
-    accessSecret: '',
+    refreshToken: '',
     fid: 0,
     fname: '',
     withFcastMeLink: true,
