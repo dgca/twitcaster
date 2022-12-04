@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { useIsClient, useReadLocalStorage } from 'usehooks-ts';
-import { useSaveSettings } from './hooks/useSaveSettings';
+import { useSaveSettings } from '../../hooks/useSaveSettings';
 import { useGet } from '../../hooks/useGet';
 import { LoadingOverlay } from '../../components/LoadingOverlay/LoadingOverlay';
 

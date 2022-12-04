@@ -1,4 +1,4 @@
-import { FormValues } from '../../../components/SettingsForm/SettingsForm';
+import { FormValues } from '../components/SettingsForm/SettingsForm';
 
 import { useCallback, useState } from 'react';
 import { useReadLocalStorage } from 'usehooks-ts';

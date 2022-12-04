@@ -111,11 +111,11 @@ export class FarcasterMonitor {
       return;
     }
 
-    const latestCast = filteredCasts[filteredCasts.length - 1];
+    const latestCast = filteredCasts[0];
 
     // If user has not casted to Twitter, we only tweet the latest cast
     if (userListener.lastCastTimestamp === null) {
-      await this.tweetCasts(user, [filteredCasts[0]]);
+      await this.tweetCasts(user, [latestCast]);
     } else {
       const storedTimestamp = userListener.lastCastTimestamp;
       const newCasts = filteredCasts.filter((cast) => {

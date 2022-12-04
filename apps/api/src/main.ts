@@ -8,6 +8,9 @@ import {
   FarcasterMonitor,
   fetchFarcaster,
 } from '@twitcaster/farcaster-provider';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());

@@ -4,6 +4,16 @@
   "sourceRoot": "apps/api/src",
   "projectType": "application",
   "targets": {
+    "build-fly": {
+      "executor": "nx:run-commands",
+      "dependsOn": [{ "projects": "self", "target": "build"}],
+      "options": {
+        "commands": [
+          "cp ./apps/api/fly.toml ./dist/apps/api/",
+          "cp .env ./dist/apps/api/"
+        ]
+      }
+    },
     "build": {
       "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
@@ -12,7 +22,8 @@
         "compiler": "tsc",
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
-        "tsConfig": "apps/api/tsconfig.app.json"
+        "tsConfig": "apps/api/tsconfig.app.json",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
