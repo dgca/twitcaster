@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "strict": true,
     "paths": {
-      "@twitcaster/db": ["libs/db/src/index.ts"],
+      "@twitcaster/db-provider": ["libs/db-provider/src/index.ts"],
       "@twitcaster/farcaster-provider": [
         "libs/farcaster-provider/src/index.ts"
       ],

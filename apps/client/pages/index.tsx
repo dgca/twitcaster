@@ -1,39 +1,35 @@
-import { Button, ButtonGroup } from '@chakra-ui/react';
-import { NextPage } from 'next';
+import { Button, ButtonGroup, Box } from '@chakra-ui/react';
+import { LoadingOverlay } from '../components/LoadingOverlay/LoadingOverlay';
+import { useGet } from '../hooks/useGet';
 import { Primary } from '../layouts/primary/primary';
 
-const Home: NextPage<{ twitterLoginUrl: string }> = ({ twitterLoginUrl }) => {
+export default function Home() {
+  const { data, status } = useGet<{ url: string }>('/api/request-token');
+  const url = data?.url;
+
   return (
-    <Primary
-      title="Farcaster to Twitter Crossposting"
-      description={[
-        'Automatically post your Farcaster casts to Twitter. Promote your Farcaster account and make your thoughts go farther.',
-        'Connect your Twitter account to get started.',
-      ]}
-    >
-      <ButtonGroup alignItems="center">
-        <Button
-          size="lg"
-          variant="solid"
-          colorScheme="twitter"
-          as="a"
-          href={twitterLoginUrl}
-        >
-          Connect Twitter
-        </Button>
-      </ButtonGroup>
-    </Primary>
+    <Box position="relative">
+      <LoadingOverlay loading={status === 'LOADING'} />
+      <Primary
+        title="Farcaster to Twitter Crossposting"
+        description={[
+          'Automatically post your Farcaster casts to Twitter. Promote your Farcaster account and make your thoughts go farther.',
+          'Connect your Twitter account to get started.',
+        ]}
+      >
+        <ButtonGroup alignItems="center">
+          <Button
+            size="lg"
+            variant="solid"
+            colorScheme="twitter"
+            as="a"
+            href={url || ''}
+            disabled={Boolean(status !== 'READY')}
+          >
+            Connect Twitter
+          </Button>
+        </ButtonGroup>
+      </Primary>
+    </Box>
   );
-};
-
-Home.getInitialProps = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_ORIGIN ?? ''}/api/request-token`
-  ).then((res) => res.json());
-
-  return {
-    twitterLoginUrl: response.url,
-  };
-};
-
-export default Home;
+}

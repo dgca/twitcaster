@@ -1,16 +1,29 @@
 class TokenStore {
-  private tokenToSecretMap = new Map<string, string>();
+  private tokenToSecretMap = new Map<
+    string,
+    {
+      token: string;
+      timeoutId: ReturnType<typeof setTimeout>;
+    }
+  >();
 
   storeSecret(oauthToken: string, oauthSecret: string) {
-    this.tokenToSecretMap.set(oauthToken, oauthSecret);
+    if (this.tokenToSecretMap.get(oauthToken)) {
+      clearTimeout(this.tokenToSecretMap.get(oauthToken)?.timeoutId);
+    }
 
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       this.tokenToSecretMap.delete(oauthToken);
     }, 1000 * 60 * 5);
+
+    this.tokenToSecretMap.set(oauthToken, {
+      token: oauthSecret,
+      timeoutId,
+    });
   }
 
   getSecret(oauthToken: string): string | undefined {
-    return this.tokenToSecretMap.get(oauthToken);
+    return this.tokenToSecretMap.get(oauthToken)?.token;
   }
 }
 

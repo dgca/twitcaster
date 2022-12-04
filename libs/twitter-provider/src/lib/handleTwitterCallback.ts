@@ -1,10 +1,18 @@
+import { getDbClient } from '@twitcaster/db-provider';
 import TwitterApi from 'twitter-api-v2';
 import { tokenStore } from '../utils/tokenStore';
+
+type UserDetails = {
+  accessToken: string;
+  accessSecret: string;
+  screenName: string;
+  userId: string;
+};
 
 async function getTwitterUserDetails(
   oauthToken: string,
   oauthVerifier: string
-) {
+): Promise<UserDetails | null> {
   try {
     const oauthSecret = tokenStore.getSecret(oauthToken);
 
@@ -40,6 +48,53 @@ async function getTwitterUserDetails(
   }
 }
 
+async function upsertUser({
+  accessToken,
+  accessSecret,
+  screenName,
+  userId,
+}: UserDetails) {
+  try {
+    const client = await getDbClient();
+    const db = client.db('db');
+    const users = db.collection('users');
+    const user = await users.findOne({ userId });
+
+    let result = null;
+
+    if (user) {
+      result = await users.updateOne(
+        {
+          userId,
+        },
+        {
+          $set: {
+            screenName,
+            accessToken,
+            accessSecret,
+          },
+        }
+      );
+    } else {
+      result = await users.insertOne({
+        userId,
+        screenName,
+        accessToken,
+        accessSecret,
+        fid: null,
+        fname: '',
+        withFcastMeLink: true,
+        withFarcasterHandle: true,
+      });
+    }
+
+    return result;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 export async function handleTwitterCallback(
   oauthToken: string,
   oauthVerifier: string
@@ -50,10 +105,15 @@ export async function handleTwitterCallback(
     return null;
   }
 
-  console.log({ userDetails });
+  const upsertResult = await upsertUser(userDetails);
+
+  if (!upsertResult) {
+    return null;
+  }
 
   return {
     screenName: userDetails.screenName,
     userId: userDetails.userId,
+    accessToken: userDetails.accessToken,
   };
 }
