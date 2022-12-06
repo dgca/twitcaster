@@ -4,6 +4,14 @@
   "sourceRoot": "libs/farcaster-provider/src",
   "projectType": "library",
   "targets": {
+    "generate-auth-token": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx ts-node --project libs/farcaster-provider/tsconfig.json libs/farcaster-provider/scripts/generateAuthToken.ts"
+        ]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

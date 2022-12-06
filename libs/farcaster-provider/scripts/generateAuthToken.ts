@@ -1,5 +1,8 @@
 import { Wallet, utils } from 'ethers';
 import canonicalize = require('canonicalize');
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 async function generateBearerToken(timestamp: number) {
   if (!process.env.FARCASTER_MNEMONIC) {
@@ -16,6 +19,10 @@ async function generateBearerToken(timestamp: number) {
       timestamp,
     },
   });
+
+  if (!payload) {
+    throw new Error('Payload is undefined');
+  }
 
   const signature = Buffer.from(
     utils.arrayify(await wallet.signMessage(payload))
@@ -54,9 +61,9 @@ async function getAuthToken() {
 async function generateAuthToken() {
   const token = await getAuthToken();
   console.log(`
-Farcaster Auth Token:
-${token}
-`);
+  Farcaster Auth Token:
+  ${token}
+  `);
 }
 
 generateAuthToken();
