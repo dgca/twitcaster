@@ -88,6 +88,7 @@ export class FarcasterMonitor {
 
       if (userListener) {
         clearTimeout(userListener.timeoutId ?? undefined);
+
         userListener.timeoutId = setTimeout(() => {
           this.checkForNewCasts(userId);
         }, POLLING_INTERVAL);
@@ -118,13 +119,13 @@ export class FarcasterMonitor {
     if (userListener.lastCastTimestamp !== null) {
       const storedTimestamp = userListener.lastCastTimestamp;
       const newCasts = filteredCasts.filter((cast) => {
-        return cast.publishedAt > storedTimestamp;
+        return cast.timestamp > storedTimestamp;
       });
       await this.tweetCasts(user, newCasts);
     }
 
     userListener.lastCastHash = latestCast.hash;
-    userListener.lastCastTimestamp = latestCast.publishedAt;
+    userListener.lastCastTimestamp = latestCast.timestamp;
   };
 
   tweetCasts = async (user: User, casts: Cast[]) => {
@@ -191,5 +192,5 @@ type Cast = {
   hash: string;
   parentAuthor?: unknown;
   text: string;
-  publishedAt: number;
+  timestamp: number;
 };

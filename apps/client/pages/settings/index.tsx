@@ -4,7 +4,20 @@ import {
 } from '../../components/SettingsForm/SettingsForm';
 import { Primary } from '../../layouts/primary/primary';
 import { format } from 'date-fns';
-import { Card, Stack, useToast } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Card,
+  Container,
+  Stack,
+  Text,
+  useToast,
+  VStack,
+} from '@chakra-ui/react';
 
 import FakeTweet from '../../vendor/fake-tweet';
 import { useEffect } from 'react';
@@ -23,6 +36,43 @@ type User = {
   userId: string;
   withFcastMeLink: boolean;
 };
+
+function HowItWorks() {
+  return (
+    <Container
+      py={{ base: '4', md: '8' }}
+      justifyContent="center"
+      display="flex"
+    >
+      <Accordion allowToggle width="100%">
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                How it works
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <VStack alignItems="stretch">
+              <Text>
+                After authenticating with Twitter, Twitcaster will periodically
+                post your Farcaster casts to Twitter. It checks for new casts
+                every 5 minutes, so you will likely see a short delay between
+                your cast and when it shows up on Twitter.
+              </Text>
+              <Text>
+                Twitcaster ignores casts that are replies to another cast. I.e.
+                it will only tweet top-level casts.
+              </Text>
+            </VStack>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    </Container>
+  );
+}
 
 function BootstrappedSettingsForm({ user }: { user: User }) {
   const toast = useToast();
@@ -94,11 +144,14 @@ function BootstrappedSettingsForm({ user }: { user: User }) {
           }}
         />
       </Card>
-      <FormProvider {...formMethods}>
-        <Stack width="100%" as="form" onSubmit={handleSubmit(onSubmit)}>
-          <SettingsForm loading={isSubmitting} />
-        </Stack>
-      </FormProvider>
+      <Box width="100%" maxWidth="800px">
+        <HowItWorks />
+        <FormProvider {...formMethods}>
+          <Stack width="100%" as="form" onSubmit={handleSubmit(onSubmit)}>
+            <SettingsForm loading={isSubmitting} />
+          </Stack>
+        </FormProvider>
+      </Box>
       <style jsx global>{`
         .tweet-wrapper .tweet {
           max-width: 100%;
