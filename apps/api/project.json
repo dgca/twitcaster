@@ -19,7 +19,8 @@
       "dependsOn": [{ "projects": "self", "target": "build"}],
       "options": {
         "commands": [
-          "cp .env dist/apps/api/"
+          "cp .env.prod dist/apps/api/",
+          "mv dist/apps/api/.env.prod dist/apps/api/.env"
         ],
         "parallel": false
       }

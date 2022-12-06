@@ -136,7 +136,7 @@ export class FarcasterMonitor {
           : cast.text;
 
       if (user.withFcastMeLink) {
-        const withLink = `${tweetBody}\nhttps://fcast.me/${user.fname}`;
+        const withLink = `${tweetBody}\n\nhttps://fcast.me/${user.fname}`;
         tweetBody = withLink.length > TWEET_MAX_LENGTH ? tweetBody : withLink;
       }
 
