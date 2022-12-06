@@ -11,6 +11,7 @@ export default async function handleCallback(
         method: 'POST',
         headers: {
           'content-type': 'application/json',
+          'x-api-secret': process.env.API_SECRET ?? '',
         },
         body: JSON.stringify(req.body),
       }

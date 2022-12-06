@@ -5,7 +5,14 @@ export default async function requestToken(
   res: NextApiResponse
 ) {
   try {
-    const response = await fetch(`${process.env.API_ORIGIN}/api/request-token`);
+    const response = await fetch(
+      `${process.env.API_ORIGIN}/api/request-token`,
+      {
+        headers: {
+          'x-api-secret': process.env.API_SECRET ?? '',
+        },
+      }
+    );
     const data = await response.json();
 
     if (

@@ -9,6 +9,7 @@ export default async function user(req: NextApiRequest, res: NextApiResponse) {
       {
         headers: {
           Authorization: req.headers.authorization ?? '',
+          'x-api-secret': process.env.API_SECRET ?? '',
         },
       }
     );

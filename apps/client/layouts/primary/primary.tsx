@@ -10,6 +10,7 @@ import {
   HStack,
   Spacer,
   Link,
+  Box,
 } from '@chakra-ui/react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { GiDungeonGate } from 'react-icons/gi';
@@ -20,13 +21,33 @@ type Props = {
   description?: string | string[];
 };
 
-function asArray(value: unknown) {
+function asArray<T>(value: T | T[]) {
   return Array.isArray(value) ? value : [value];
 }
 
 export function Primary({ children, title, description }: Props) {
   return (
     <VStack minHeight="100vh">
+      <Box position="fixed" top={0} right={0}>
+        <a
+          href="https://github.com/dgca/twitcaster"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <picture>
+            <img
+              decoding="async"
+              loading="lazy"
+              width="149"
+              height="149"
+              src="https://github.blog/wp-content/uploads/2008/12/forkme_right_white_ffffff.png?resize=149%2C149"
+              className="attachment-full size-full"
+              alt="Fork me on GitHub"
+              data-recalc-dims="1"
+            />
+          </picture>
+        </a>
+      </Box>
       <Container py={{ base: '16', md: '24' }}>
         <Stack spacing={{ base: '16', md: '24' }}>
           <Stack spacing={{ base: '8', md: '10' }} align="center">

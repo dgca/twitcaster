@@ -14,6 +14,7 @@ export default async function saveSettings(
         headers: {
           Authorization: req.headers.authorization ?? '',
           'content-type': 'application/json',
+          'x-api-secret': process.env.API_SECRET ?? '',
         },
         body: JSON.stringify(req.body),
       }
