@@ -4,7 +4,7 @@ import {
 } from '../../components/SettingsForm/SettingsForm';
 import { Primary } from '../../layouts/primary/primary';
 import { format } from 'date-fns';
-import { Card, Stack, useToast } from '@chakra-ui/react';
+import { Card, Stack, Text, useToast, VStack } from '@chakra-ui/react';
 
 import FakeTweet from '../../vendor/fake-tweet';
 import { useEffect } from 'react';
@@ -76,14 +76,14 @@ function BootstrappedSettingsForm({ user }: { user: User }) {
         <FakeTweet
           config={{
             user: {
-              nickname: 'yee_dinosaur',
-              name: 'Yee Dino',
+              nickname: user.screenName,
+              name: 'Your Name Here',
               avatar: '/assets/yee-avatar.jpg',
               locked: false,
               verified: true,
             },
             display: 'default',
-            text: `Fool me once, shame on yee. Fool me twice...
+            text: `That doesn't look very scary. More like a six-foot turkey.
             ${withFcastMeLink ? 'https://fcast.me/typeof' : ''}\xa0`,
             image: '',
             date: format(new Date(), 'h:mm a • MMM d, yyyy'),
