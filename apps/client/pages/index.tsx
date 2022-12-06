@@ -1,31 +1,13 @@
 import { Button, ButtonGroup, Box } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { useMemo } from 'react';
-import { useIsClient, useLocalStorage } from 'usehooks-ts';
+import { useIsClient } from 'usehooks-ts';
 import { LoadingOverlay } from '../components/LoadingOverlay/LoadingOverlay';
 import { useGet } from '../hooks/useGet';
 import { Primary } from '../layouts/primary/primary';
 
 export default function Home() {
-  const [userId] = useLocalStorage('userId', '');
-  const [screenName] = useLocalStorage('screenName', '');
-  const [accessToken] = useLocalStorage('accessToken', '');
   const isClient = useIsClient();
 
-  const hasTwitterAuth = Boolean(userId && screenName && accessToken);
-
-  const { data, status } = useGet<{ url: string }>(
-    '/api/request-token',
-    undefined,
-    hasTwitterAuth
-  );
-
-  const buttonHref = useMemo(() => {
-    if (hasTwitterAuth) {
-      return '/settings';
-    }
-    return data?.url || '';
-  }, [data?.url, hasTwitterAuth]);
+  const { data, status } = useGet<{ url: string }>('/api/request-token');
 
   return (
     <Box position="relative">
@@ -43,11 +25,11 @@ export default function Home() {
               size="lg"
               variant="solid"
               colorScheme="twitter"
-              as={hasTwitterAuth ? NextLink : 'a'}
-              href={buttonHref}
-              disabled={!hasTwitterAuth && Boolean(status !== 'READY')}
+              as={'a'}
+              href={data?.url || ''}
+              disabled={Boolean(status !== 'READY')}
             >
-              {hasTwitterAuth ? 'Edit Settings' : 'Connect Twitter'}
+              Connect Twitter
             </Button>
           )}
         </ButtonGroup>

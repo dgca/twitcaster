@@ -13,7 +13,19 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+
 app.use(express.json());
+app.use(function useSecret(request, response, next) {
+  if (
+    !request.headers['x-api-secret'] ||
+    request.headers['x-api-secret'] !== process.env.API_SECRET
+  ) {
+    return response.status(400).send({
+      error: 'Invalid x-api-secret header',
+    });
+  }
+  next();
+});
 
 const farcasterMonitor = new FarcasterMonitor();
 

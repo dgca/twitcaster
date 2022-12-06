@@ -4,14 +4,24 @@
   "sourceRoot": "apps/api/src",
   "projectType": "application",
   "targets": {
-    "build-fly": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": [{ "projects": "self", "target": "pre-deploy"}],
+      "options": {
+        "commands": [
+          "scp -i {args.pem} -rp dist/apps/api {args.dest}:/home/ubuntu/apps"
+        ],
+        "parallel": false
+      }
+    },
+    "pre-deploy": {
       "executor": "nx:run-commands",
       "dependsOn": [{ "projects": "self", "target": "build"}],
       "options": {
         "commands": [
-          "cp ./apps/api/fly.toml ./dist/apps/api/",
-          "cp .env ./dist/apps/api/"
-        ]
+          "cp .env dist/apps/api/"
+        ],
+        "parallel": false
       }
     },
     "build": {

@@ -12,6 +12,7 @@ export default async function farcasterUser(
       {
         headers: {
           Authorization: req.headers.authorization ?? '',
+          'x-api-secret': process.env.API_SECRET ?? '',
         },
       }
     );

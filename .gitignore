@@ -44,3 +44,6 @@ Thumbs.db
 # Environment Variables
 .env.local
 .env
+
+# AWS
+*.pem
