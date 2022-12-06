@@ -29,7 +29,8 @@
       "configurations": {
         "development": {
           "buildTarget": "client:build:development",
-          "dev": true
+          "dev": true,
+          "port": 4200
         },
         "production": {
           "buildTarget": "client:build:production",
