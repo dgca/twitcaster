@@ -104,7 +104,7 @@ export class FarcasterMonitor {
     }
 
     const filteredCasts = casts.filter((cast) => {
-      return !cast.parentAuthor && cast.author.fid === user.fid;
+      return !cast.parentAuthor && !cast.recast;
     });
 
     if (filteredCasts.length === 0) {
@@ -191,9 +191,7 @@ function isValidUser(
 type Cast = {
   hash: string;
   parentAuthor?: unknown;
-  author: {
-    fid: number;
-  };
+  recast?: boolean;
   text: string;
   timestamp: number;
 };
