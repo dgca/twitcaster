@@ -105,7 +105,7 @@ export class FarcasterMonitor {
 
     const filteredCasts = casts.filter((cast) => {
       // Removes casts which are replies to another cast
-      return !cast.parentAuthor;
+      return !cast.parentAuthor && cast.author.fid === user.fid;
     });
 
     if (filteredCasts.length === 0) {
@@ -191,6 +191,9 @@ function isValidUser(
 type Cast = {
   hash: string;
   parentAuthor?: unknown;
+  author: {
+    fid: number;
+  };
   text: string;
   timestamp: number;
 };
