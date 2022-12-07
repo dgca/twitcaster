@@ -104,7 +104,6 @@ export class FarcasterMonitor {
     }
 
     const filteredCasts = casts.filter((cast) => {
-      // Removes casts which are replies to another cast
       return !cast.parentAuthor && cast.author.fid === user.fid;
     });
 
