@@ -6,12 +6,14 @@ export async function updateUser({
   fid,
   fname,
   withFcastMeLink,
+  withHashTagOnly,
 }: {
   userId: string;
   accessToken: string;
   fid: number;
   fname: string;
   withFcastMeLink: boolean;
+  withHashTagOnly: boolean;
 }) {
   const client = await getDbClient();
   const users = client.db('db').collection('users');
@@ -26,6 +28,7 @@ export async function updateUser({
         fid,
         fname,
         withFcastMeLink,
+        withHashTagOnly,
       },
     },
     {
