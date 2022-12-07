@@ -115,7 +115,8 @@ export class FarcasterMonitor {
 
     // If `userListener.lastCastTimestamp` is null, the user just signed up
     // so we'll skip tweeting and just set the latest timestamp and hash below
-    if (userListener.lastCastTimestamp !== null) {
+    if (userListener.lastCastTimestamp !== null &&
+        userListener.lastCastTimestamp <= latestCast.timestamp) {
       const storedTimestamp = userListener.lastCastTimestamp;
       const newCasts = filteredCasts.filter((cast) => {
         return cast.timestamp > storedTimestamp;
