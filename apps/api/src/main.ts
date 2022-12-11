@@ -113,14 +113,15 @@ app.post('/api/handle-callback', async function (req, res) {
 });
 
 app.post('/api/save-settings', async function (req, res) {
-  const { userId, fname, withFcastMeLink } = req.body;
+  const { userId, fname, withFcastMeLink, withHashTagOnly } = req.body;
   const accessToken = req.headers.authorization;
 
   if (
     typeof userId !== 'string' ||
     typeof fname !== 'string' ||
     typeof withFcastMeLink !== 'boolean' ||
-    typeof accessToken !== 'string'
+    typeof accessToken !== 'string' ||
+    typeof withHashTagOnly !== 'boolean'
   ) {
     return res.status(400).send({
       error: 'Invalid request',
@@ -145,6 +146,7 @@ app.post('/api/save-settings', async function (req, res) {
     fid,
     fname,
     withFcastMeLink,
+    withHashTagOnly,
   });
 
   if (!result.ok || !result.value) {

@@ -21,6 +21,7 @@ import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay';
 export type FormValues = {
   fname: string;
   withFcastMeLink: boolean;
+  withHashTagOnly: boolean;
 };
 
 export function SettingsForm({ loading }: { loading: boolean }) {
@@ -70,15 +71,16 @@ export function SettingsForm({ loading }: { loading: boolean }) {
             </Stack>
           </FormControl>
           <FormControl>
-            <Stack
-              direction={{ base: 'column', md: 'row' }}
-              spacing={{ base: '1.5', md: '8' }}
-              justify="space-between"
-            >
+            <Flex justifyContent={'space-between'}>
               <FormLabel variant="inline">Include fcast.me link?</FormLabel>
               <Switch {...register('withFcastMeLink')} size="lg" />
-              <Spacer />
-            </Stack>
+            </Flex>
+          </FormControl>
+          <FormControl>
+            <Flex justifyContent={'space-between'}>
+              <FormLabel variant="inline">Only twitcast when cast contains a <code>#twitcast</code> hashtag</FormLabel>
+              <Switch {...register('withHashTagOnly')} size="lg" alignSelf={'flex-end'} />
+            </Flex>
           </FormControl>
 
           <Flex direction="row-reverse">

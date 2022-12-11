@@ -15,7 +15,7 @@ type Listener = {
 // Check for new tweets every five minutes
 const POLLING_INTERVAL = 1000 * 60 * 5;
 const TWEET_MAX_LENGTH = 280;
-
+const TWITCAST_HASHTAG = '#twitcast';
 export class FarcasterMonitor {
   // Map<userId, Listener>
   listeners: Map<string, Listener> = new Map();
@@ -118,11 +118,11 @@ export class FarcasterMonitor {
     if (userListener.lastCastTimestamp !== null) {
       const storedTimestamp = userListener.lastCastTimestamp;
       const newCasts = filteredCasts.filter((cast) => {
-        return cast.timestamp > storedTimestamp;
+        return cast.timestamp > storedTimestamp && (user.withHashTagOnly === false || cast.text.toLowerCase().includes(TWITCAST_HASHTAG));
       });
       await this.tweetCasts(user, newCasts);
     }
-
+    // Will these be lost any time the server restarts?
     userListener.lastCastHash = latestCast.hash;
     userListener.lastCastTimestamp = latestCast.timestamp;
   };
@@ -172,6 +172,7 @@ type User = {
   fid: number;
   fname: string;
   withFcastMeLink: boolean;
+  withHashTagOnly: boolean;
 };
 
 function isValidUser(
@@ -184,6 +185,7 @@ function isValidUser(
     fid: 0,
     fname: '',
     withFcastMeLink: true,
+    withHashTagOnly: false,
   });
 }
 
