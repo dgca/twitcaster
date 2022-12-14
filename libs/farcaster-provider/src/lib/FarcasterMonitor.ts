@@ -8,7 +8,6 @@ import { get } from 'lodash';
 
 type Listener = {
   timeoutId: ReturnType<typeof setTimeout> | null;
-  lastCastHash: string | null;
   lastCastTimestamp: number | null;
 };
 
@@ -51,7 +50,6 @@ export class FarcasterMonitor {
 
     this.listeners.set(userId, {
       timeoutId: null,
-      lastCastHash: null,
       lastCastTimestamp: null,
     });
 
@@ -103,27 +101,30 @@ export class FarcasterMonitor {
       return;
     }
 
-    const filteredCasts = casts.filter((cast) => {
-      return !cast.parentAuthor && !cast.recast;
+    const storedTimestamp = userListener.lastCastTimestamp || 0;
+
+    const newCasts = casts.filter((cast) => {
+      const isOwnTopLevelCast = !cast.parentAuthor && !cast.recast;
+      const isNew = cast.timestamp > storedTimestamp;
+      const isUserOptIn =
+        user.withHashTagOnly === false ||
+        cast.text.toLowerCase().includes(TWITCAST_HASHTAG);
+
+      return isOwnTopLevelCast && isNew && isUserOptIn;
     });
 
-    if (filteredCasts.length === 0) {
+    if (newCasts.length === 0) {
       return;
     }
 
-    const latestCast = filteredCasts[0];
+    const latestCast = newCasts[0];
 
     // If `userListener.lastCastTimestamp` is null, the user just signed up
     // so we'll skip tweeting and just set the latest timestamp and hash below
     if (userListener.lastCastTimestamp !== null) {
-      const storedTimestamp = userListener.lastCastTimestamp;
-      const newCasts = filteredCasts.filter((cast) => {
-        return cast.timestamp > storedTimestamp && (user.withHashTagOnly === false || cast.text.toLowerCase().includes(TWITCAST_HASHTAG));
-      });
       await this.tweetCasts(user, newCasts);
     }
-    // Will these be lost any time the server restarts?
-    userListener.lastCastHash = latestCast.hash;
+
     userListener.lastCastTimestamp = latestCast.timestamp;
   };
 

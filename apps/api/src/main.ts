@@ -1,4 +1,4 @@
-import { getUser, updateUser } from '@twitcaster/db-provider';
+import { getUser, updateUser, runMigrations } from '@twitcaster/db-provider';
 import {
   getRequestToken,
   handleTwitterCallback,
@@ -162,8 +162,14 @@ app.post('/api/save-settings', async function (req, res) {
   });
 });
 
-const server = app.listen(process.env.API_PORT, () => {
-  console.log(`Listening at http://localhost:${process.env.API_PORT}/api`);
-});
+async function init() {
+  await runMigrations();
 
-server.on('error', console.error);
+  const server = app.listen(process.env.API_PORT, () => {
+    console.log(`Listening at http://localhost:${process.env.API_PORT}/api`);
+  });
+
+  server.on('error', console.error);
+}
+
+init();
