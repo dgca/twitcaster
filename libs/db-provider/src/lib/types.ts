@@ -7,4 +7,5 @@ export type UserDetails = {
   fid?: null;
   fname?: string;
   withFcastMeLink?: boolean;
+  withHashTagOnly?: boolean;
 };

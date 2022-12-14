@@ -35,6 +35,7 @@ type User = {
   screenName: string;
   userId: string;
   withFcastMeLink: boolean;
+  withHashTagOnly: boolean;
 };
 
 function HowItWorks() {
@@ -66,6 +67,10 @@ function HowItWorks() {
                 Twitcaster ignores casts that are replies to another cast. I.e.
                 it will only tweet top-level casts.
               </Text>
+              <Text>
+                If the <code>#twitcast</code> hashtag option is toggled on,
+                only casts containing the tag will sync to Twitter.
+              </Text>
             </VStack>
           </AccordionPanel>
         </AccordionItem>
@@ -81,6 +86,7 @@ function BootstrappedSettingsForm({ user }: { user: User }) {
     defaultValues: {
       fname: user.fname,
       withFcastMeLink: user.withFcastMeLink,
+      withHashTagOnly: user.withHashTagOnly,
     },
   });
 

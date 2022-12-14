@@ -12,6 +12,7 @@ export function useSaveSettings() {
       userId,
       fname,
       withFcastMeLink,
+      withHashTagOnly,
       onSuccess,
       onError,
     }: FormValues & {
@@ -32,6 +33,7 @@ export function useSaveSettings() {
             userId,
             fname,
             withFcastMeLink,
+            withHashTagOnly,
           }),
         });
 
