@@ -118,11 +118,15 @@ export class FarcasterMonitor {
     if (userListener.lastCastTimestamp !== null) {
       const storedTimestamp = userListener.lastCastTimestamp;
       const newCasts = filteredCasts.filter((cast) => {
-        return cast.timestamp > storedTimestamp && (user.withHashTagOnly === false || cast.text.toLowerCase().includes(TWITCAST_HASHTAG));
+        return (
+          cast.timestamp > storedTimestamp &&
+          (user.withHashTagOnly === false ||
+            cast.text.toLowerCase().includes(TWITCAST_HASHTAG))
+        );
       });
       await this.tweetCasts(user, newCasts);
     }
-    // Will these be lost any time the server restarts?
+
     userListener.lastCastHash = latestCast.hash;
     userListener.lastCastTimestamp = latestCast.timestamp;
   };
