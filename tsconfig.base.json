@@ -20,6 +20,7 @@
       "@twitcaster/farcaster-provider": [
         "libs/farcaster-provider/src/index.ts"
       ],
+      "@twitcaster/server": ["libs/server/src/index.ts"],
       "@twitcaster/twitter-provider": ["libs/twitter-provider/src/index.ts"]
     }
   },

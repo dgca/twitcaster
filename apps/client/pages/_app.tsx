@@ -2,9 +2,10 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '../chakra/theme';
+import { trpc } from '@twitcaster/server';
 import '@fontsource/inter/variable.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function Twitcaster({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -19,4 +20,4 @@ function CustomApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default CustomApp;
+export default trpc.withTRPC(Twitcaster);

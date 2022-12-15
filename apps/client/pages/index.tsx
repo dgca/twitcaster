@@ -4,6 +4,8 @@ import { LoadingOverlay } from '../components/LoadingOverlay/LoadingOverlay';
 import { useGet } from '../hooks/useGet';
 import { Primary } from '../layouts/primary/primary';
 
+import { trpc } from '@twitcaster/server';
+
 export default function Home() {
   const isClient = useIsClient();
 

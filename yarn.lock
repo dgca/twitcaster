@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@actions/exec@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@actions/exec/-/exec-1.1.1.tgz#2e43f28c54022537172819a7cf886c844221a611"
+  integrity sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==
+  dependencies:
+    "@actions/io" "^1.0.1"
+
+"@actions/io@^1.0.1":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@actions/io/-/io-1.1.2.tgz#766ac09674a289ce0f1550ffe0a6eac9261a8ea9"
+  integrity sha512-d+RwPlMp+2qmBfeLYPLXuSRykDIFEwdTA0MMxzS9kh4kvP1ftrc/9fzy6pX6qAjthdXruHQ6/6kjT/DNo5ALuw==
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -3925,6 +3937,22 @@
     yargs "^17.6.2"
     yargs-parser "21.1.1"
 
+"@nx-tools/core@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/@nx-tools/core/-/core-4.0.2.tgz#eca8930c2b45dbfcc063d7b2507627c698c8b658"
+  integrity sha512-YHuHu2cV5swb93fucVR3HdawL5Yte/we1VkZD5+d5etO5Sa8gCNy/SzKR2ouHDtubtcY4BwBnaD+qoxJR8vfLw==
+  dependencies:
+    "@actions/exec" "^1.1.1"
+    colorette "^2.0.19"
+
+"@nx-tools/nx-prisma@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/@nx-tools/nx-prisma/-/nx-prisma-4.0.2.tgz#6e17f8224184aa4c46205630b7e3b3146535cbf8"
+  integrity sha512-071yOC4nikC6qFdHzs/72Sk4FX9w6/iZMH/j3JIql4zatk23VCbDkjz/lhI+cfS8OX4SPuhVqOl9T+RHmsjEVQ==
+  dependencies:
+    "@nx-tools/core" "4.0.2"
+    "@swc/helpers" "^0.4.12"
+
 "@parcel/watcher@2.0.4":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@parcel/watcher/-/watcher-2.0.4.tgz#f300fef4cc38008ff4b8c29d92588eced3ce014b"
@@ -3959,6 +3987,23 @@
   version "2.11.6"
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+
+"@prisma/client@^4.5.0":
+  version "4.7.1"
+  resolved "https://registry.npmjs.org/@prisma/client/-/client-4.7.1.tgz#66fe84aca25de17cb3d9141dec003f34714914b9"
+  integrity sha512-/GbnOwIPtjiveZNUzGXOdp7RxTEkHL4DZP3vBaFNadfr6Sf0RshU5EULFzVaSi9i9PIK9PYd+1Rn7z2B2npb9w==
+  dependencies:
+    "@prisma/engines-version" "4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c"
+
+"@prisma/engines-version@4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c":
+  version "4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c"
+  resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c.tgz#43ff7d85478e64a1d790e4d53e78768a2acfacfe"
+  integrity sha512-Bd4LZ+WAnUHOq31e9X/ihi5zPlr4SzTRwUZZYxvWOxlerIZ7HJlVa9zXpuKTKLpI9O1l8Ec4OYCKsivWCs5a3Q==
+
+"@prisma/engines@4.7.1":
+  version "4.7.1"
+  resolved "https://registry.npmjs.org/@prisma/engines/-/engines-4.7.1.tgz#d657d4d05724158140022fa00614e143643090c2"
+  integrity sha512-zWabHosTdLpXXlMefHmnouhXMoTB1+SCbUU3t4FCmdrtIOZcarPKU3Alto7gm/pZ9vHlGOXHCfVZ1G7OIrSbog==
 
 "@rollup/plugin-babel@^5.3.0":
   version "5.3.1"
@@ -4233,12 +4278,32 @@
   dependencies:
     tslib "^2.4.0"
 
+"@swc/helpers@^0.4.12":
+  version "0.4.14"
+  resolved "https://registry.npmjs.org/@swc/helpers/-/helpers-0.4.14.tgz#1352ac6d95e3617ccb7c1498ff019654f1e12a74"
+  integrity sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==
+  dependencies:
+    tslib "^2.4.0"
+
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@szmarczak/http-timer/-/http-timer-1.1.2.tgz#b1665e2c461a2cd92f4c1bbf50d5454de0d4b421"
   integrity sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==
   dependencies:
     defer-to-connect "^1.0.1"
+
+"@tanstack/query-core@4.20.4":
+  version "4.20.4"
+  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-4.20.4.tgz#1f7975a2db26a8bc2f382bad8a44cd422c846b17"
+  integrity sha512-lhLtGVNJDsJ/DyZXrLzekDEywQqRVykgBqTmkv0La32a/RleILXy6JMLBb7UmS3QCatg/F/0N9/5b0i5j6IKcA==
+
+"@tanstack/react-query@^4.20.4":
+  version "4.20.4"
+  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-4.20.4.tgz#562b34fb919adea884eccaba2b5be50e8ba7fb16"
+  integrity sha512-SJRxx13k/csb9lXAJfycgVA1N/yU/h3bvRNWP0+aHMfMjmbyX82FdoAcckDBbOdEyAupvb0byelNHNeypCFSyA==
+  dependencies:
+    "@tanstack/query-core" "4.20.4"
+    use-sync-external-store "^1.2.0"
 
 "@testing-library/dom@^8.5.0":
   version "8.19.0"
@@ -4267,6 +4332,28 @@
   version "2.0.0"
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
+
+"@trpc/client@^10.5.0":
+  version "10.5.0"
+  resolved "https://registry.npmjs.org/@trpc/client/-/client-10.5.0.tgz#7e68348aae3dbe02086d0f19d435927fdaea36f3"
+  integrity sha512-ULRL6YUi/4sMzZnqS3VCe/VduPZgY24wdC4canpwWZfHj+O0kHz3KR260DzEw0QrpLrOwmkIWOlQKzVBn2lLgQ==
+
+"@trpc/next@^10.5.0":
+  version "10.5.0"
+  resolved "https://registry.npmjs.org/@trpc/next/-/next-10.5.0.tgz#c7181b126b1f0e249e2b853b28385066576a45ba"
+  integrity sha512-beWvrdHZTV7kx4XeLlHKB29EC6VWkkPykWN1eoPkSTeAYMqEIpl46Xgdj6UfiLmuq8yjAi888BahGNdmTMqFZQ==
+  dependencies:
+    react-ssr-prepass "^1.5.0"
+
+"@trpc/react-query@^10.5.0":
+  version "10.5.0"
+  resolved "https://registry.npmjs.org/@trpc/react-query/-/react-query-10.5.0.tgz#458ee92aed7f36ace621621dab9476cc2370fc90"
+  integrity sha512-MBjgssZBy1ZRZVRE4uvnVu7AGcdOhL47Y1NIPGd5WG5ZisNrV6imf7yZ62uNDemnekwTuJT/Lad9r14swvmvzQ==
+
+"@trpc/server@^10.5.0":
+  version "10.5.0"
+  resolved "https://registry.npmjs.org/@trpc/server/-/server-10.5.0.tgz#318d7de7550b7cb01bfd08b036d3a0321b19df80"
+  integrity sha512-AJ4ckDpnN8xuqWBox68KDTFpG12ZxKkW7fi9XJ+TLtyyNyqOMVUvKH9070CdxhqBZjebTASryE+/6lntkDFQxA==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -6052,7 +6139,7 @@ colorette@^1.1.0:
   resolved "https://registry.npmjs.org/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
 
-colorette@^2.0.10, colorette@^2.0.16:
+colorette@^2.0.10, colorette@^2.0.16, colorette@^2.0.19:
   version "2.0.19"
   resolved "https://registry.npmjs.org/colorette/-/colorette-2.0.19.tgz#cdf044f47ad41a0f4b56b3a0d5b4e6e1a2d5a798"
   integrity sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==
@@ -6184,6 +6271,13 @@ cookie@0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
+
+copy-anything@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/copy-anything/-/copy-anything-3.0.3.tgz#206767156f08da0e02efd392f71abcdf79643559"
+  integrity sha512-fpW2W/BqEzqPp29QS+MwwfisHCQZtiduTe/m8idFo0xbti9fIZ2WVhAsCv4ggFVH3AgCkVdpoOCtQC6gBrdhjw==
+  dependencies:
+    is-what "^4.1.8"
 
 copy-to-clipboard@3.3.1:
   version "3.3.1"
@@ -8715,6 +8809,11 @@ is-weakset@^2.0.1:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
 
+is-what@^4.1.8:
+  version "4.1.8"
+  resolved "https://registry.npmjs.org/is-what/-/is-what-4.1.8.tgz#0e2a8807fda30980ddb2571c79db3d209b14cbe4"
+  integrity sha512-yq8gMao5upkPoGEU9LsB2P+K3Kt8Q3fQFCGyNCWOAnJAMzEXVV9drYb0TXr42TTliLLhKIBvulgAXgtLLnwzGA==
+
 is-wsl@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/is-wsl/-/is-wsl-2.2.0.tgz#74a4c76e77ca9fd3f932f290c17ea326cd157271"
@@ -10833,6 +10932,13 @@ pretty-format@^28.1.1, pretty-format@^28.1.3:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
+prisma@^4.5.0:
+  version "4.7.1"
+  resolved "https://registry.npmjs.org/prisma/-/prisma-4.7.1.tgz#0a1beac26abdc4421e496b75eb50413f3ee3b0ba"
+  integrity sha512-CCQP+m+1qZOGIZlvnL6T3ZwaU0LAleIHYFPN9tFSzjs/KL6vH9rlYbGOkTuG9Q1s6Ki5D0LJlYlW18Z9EBUpGg==
+  dependencies:
+    "@prisma/engines" "4.7.1"
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
@@ -11074,6 +11180,11 @@ react-shallow-renderer@^16.15.0:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+
+react-ssr-prepass@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/react-ssr-prepass/-/react-ssr-prepass-1.5.0.tgz#bc4ca7fcb52365e6aea11cc254a3d1bdcbd030c5"
+  integrity sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==
 
 react-style-singleton@^2.2.1:
   version "2.2.1"
@@ -12030,6 +12141,13 @@ stylus@^0.55.0:
     semver "^6.3.0"
     source-map "^0.7.3"
 
+superjson@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.npmjs.org/superjson/-/superjson-1.12.0.tgz#7b314b982bfebc5b8e56054b8528813fdda8fc7a"
+  integrity sha512-B4tefmFqj8KDShHi2br2rz0kBlUJuQHtxMCydEuHvooL+6EscROTNWRfOLMDxW1dS/daK2zZr3C3N9DU+jXATQ==
+  dependencies:
+    copy-anything "^3.0.2"
+
 supports-color@^5.3.0:
   version "5.5.0"
   resolved "https://registry.npmjs.org/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -12600,7 +12718,7 @@ use-sidecar@^1.1.2:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
-use-sync-external-store@1.2.0:
+use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
@@ -13051,3 +13169,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@^3.20.2:
+  version "3.20.2"
+  resolved "https://registry.npmjs.org/zod/-/zod-3.20.2.tgz#068606642c8f51b3333981f91c0a8ab37dfc2807"
+  integrity sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==
