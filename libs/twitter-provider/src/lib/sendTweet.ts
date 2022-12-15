@@ -10,7 +10,11 @@ export async function sendTweet({
 }) {
   const twitterClient = await getUserTwitterClient({ userId });
 
-  return twitterClient.v2.tweet(tweet);
+  if (process.env.NODE_ENV !== 'production') {
+    return;
+  }
+
+  await twitterClient.v2.tweet(tweet);
 }
 
 async function handleRefreshToken({ userId }: { userId: string }) {

@@ -4,12 +4,16 @@ import { LoadingOverlay } from '../components/LoadingOverlay/LoadingOverlay';
 import { useGet } from '../hooks/useGet';
 import { Primary } from '../layouts/primary/primary';
 
-import { trpc } from '@twitcaster/server';
+import { trpc } from '@twitcaster/trpc-next';
 
 export default function Home() {
   const isClient = useIsClient();
 
   const { data, status } = useGet<{ url: string }>('/api/request-token');
+
+  const blah = trpc.example.hello.useQuery();
+
+  console.log(blah.data);
 
   return (
     <Box position="relative">

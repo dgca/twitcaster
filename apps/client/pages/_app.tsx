@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '../chakra/theme';
-import { trpc } from '@twitcaster/server';
+import { trpc } from '@twitcaster/trpc-next';
 import '@fontsource/inter/variable.css';
 
 function Twitcaster({ Component, pageProps }: AppProps) {
